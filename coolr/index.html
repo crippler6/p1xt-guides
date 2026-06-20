@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coolr — The right AC, in 5 questions.</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:    #1a6cf6;
+      --blue-dk: #1250c4;
+      --sky:     #e8f2ff;
+      --dark:    #0f1623;
+      --mid:     #4b5768;
+      --light:   #f5f8ff;
+      --white:   #ffffff;
+      --border:  #dde6f5;
+      --green:   #12b76a;
+      --radius:  14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--white);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    .logo { font-size: 1.5rem; font-weight: 800; color: var(--blue); letter-spacing: -.5px; }
+    .logo span { color: var(--dark); }
+    nav a {
+      text-decoration: none;
+      color: var(--mid);
+      font-size: .9rem;
+      margin-left: 28px;
+      transition: color .2s;
+    }
+    nav a:hover { color: var(--blue); }
+    .btn {
+      display: inline-block;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: .9rem;
+      cursor: pointer;
+      transition: all .2s;
+      border: none;
+      text-decoration: none;
+    }
+    .btn-primary { background: var(--blue); color: #fff; }
+    .btn-primary:hover { background: var(--blue-dk); transform: translateY(-1px); }
+    .btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--dark); }
+    .btn-ghost:hover { border-color: var(--blue); color: var(--blue); }
+    .btn-lg { padding: 16px 36px; font-size: 1.05rem; border-radius: 10px; }
+    .btn-xl { padding: 20px 48px; font-size: 1.15rem; border-radius: 12px; }
+
+    /* ── HERO ── */
+    #hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 90px 24px 80px;
+      background: linear-gradient(170deg, var(--sky) 0%, var(--white) 60%);
+    }
+    #hero .badge {
+      background: var(--blue);
+      color: #fff;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    #hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -.03em;
+      max-width: 680px;
+      margin-bottom: 20px;
+    }
+    #hero h1 em { color: var(--blue); font-style: normal; }
+    #hero p {
+      font-size: 1.15rem;
+      color: var(--mid);
+      max-width: 500px;
+      margin-bottom: 36px;
+    }
+    .hero-sub {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      font-size: .85rem;
+      color: var(--mid);
+    }
+    .hero-sub span::before { content: "✓ "; color: var(--green); font-weight: 700; }
+
+    /* ── HOW IT WORKS ── */
+    #how {
+      padding: 80px 24px;
+      text-align: center;
+      background: var(--light);
+    }
+    .section-label {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 12px;
+    }
+    #how h2 { font-size: 2rem; font-weight: 800; margin-bottom: 48px; }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .step {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      border: 1px solid var(--border);
+    }
+    .step-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--sky);
+      color: var(--blue);
+      font-weight: 800;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .step h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+    .step p { font-size: .9rem; color: var(--mid); }
+
+    /* ── QUIZ ── */
+    #quiz {
+      padding: 80px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #quiz h2 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; text-align: center; }
+    #quiz > p { color: var(--mid); margin-bottom: 40px; text-align: center; }
+
+    .quiz-card {
+      width: 100%;
+      max-width: 620px;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 8px 40px rgba(26,108,246,.07);
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: var(--border);
+      border-radius: 4px;
+      margin-bottom: 32px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--blue);
+      border-radius: 4px;
+      transition: width .4s ease;
+    }
+
+    .q-step { display: none; }
+    .q-step.active { display: block; }
+
+    .q-step h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .q-step .q-sub {
+      font-size: .9rem;
+      color: var(--mid);
+      margin-bottom: 24px;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .options.single-col { grid-template-columns: 1fr; }
+
+    .option {
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      cursor: pointer;
+      transition: all .18s;
+      text-align: left;
+      background: var(--white);
+    }
+    .option:hover { border-color: var(--blue); background: var(--sky); }
+    .option.selected { border-color: var(--blue); background: var(--sky); box-shadow: 0 0 0 3px rgba(26,108,246,.12); }
+    .option .opt-icon { font-size: 1.5rem; margin-bottom: 6px; display: block; }
+    .option .opt-label { font-weight: 600; font-size: .95rem; }
+    .option .opt-desc { font-size: .8rem; color: var(--mid); margin-top: 2px; }
+
+    .quiz-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 28px;
+    }
+    .q-counter { font-size: .85rem; color: var(--mid); }
+
+    /* ── RESULT ── */
+    #result {
+      display: none;
+      padding: 80px 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    #result.visible { display: block; }
+
+    .result-header { text-align: center; margin-bottom: 48px; }
+    .result-header .badge-green {
+      background: #d1fae5;
+      color: #065f46;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+    .result-header h2 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+    .result-header p { color: var(--mid); }
+
+    .product-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 8px 40px rgba(26,108,246,.07);
+      margin-bottom: 32px;
+    }
+    .product-img {
+      background: var(--sky);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7rem;
+      min-height: 260px;
+    }
+    .product-info { display: flex; flex-direction: column; justify-content: center; }
+    .product-type {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 8px;
+    }
+    .product-name { font-size: 1.6rem; font-weight: 800; margin-bottom: 4px; }
+    .product-tagline { color: var(--mid); font-size: .95rem; margin-bottom: 20px; }
+    .product-price {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+    .product-price span { font-size: 1rem; font-weight: 500; color: var(--mid); }
+    .financing { font-size: .85rem; color: var(--mid); margin-bottom: 24px; }
+    .financing strong { color: var(--dark); }
+
+    .specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .spec {
+      background: var(--light);
+      border-radius: 8px;
+      padding: 10px 14px;
+    }
+    .spec-label { font-size: .75rem; color: var(--mid); }
+    .spec-val { font-size: .95rem; font-weight: 700; }
+
+    .why-box {
+      background: var(--sky);
+      border-radius: 12px;
+      padding: 18px;
+      font-size: .9rem;
+      margin-bottom: 24px;
+      border-left: 4px solid var(--blue);
+    }
+    .why-box strong { color: var(--blue); }
+
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* ── CHECKOUT MODAL ── */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15,22,35,.5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .overlay.open { display: flex; }
+    .modal {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 80px rgba(0,0,0,.2);
+    }
+    .modal h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 4px; }
+    .modal .modal-sub { color: var(--mid); font-size: .9rem; margin-bottom: 28px; }
+    .modal-close {
+      float: right;
+      background: var(--border);
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 32px;
+      text-align: center;
+      margin-top: -4px;
+    }
+
+    .field { margin-bottom: 18px; }
+    .field label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: 6px; }
+    .field input, .field select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: .95rem;
+      transition: border-color .2s;
+      outline: none;
+    }
+    .field input:focus, .field select:focus { border-color: var(--blue); }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .order-summary {
+      background: var(--light);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 24px;
+    }
+    .order-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: .9rem;
+      margin-bottom: 8px;
+    }
+    .order-line.total {
+      font-weight: 800;
+      font-size: 1rem;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+      margin-top: 4px;
+    }
+
+    .secure-note {
+      text-align: center;
+      font-size: .78rem;
+      color: var(--mid);
+      margin-top: 14px;
+    }
+
+    /* ── SUCCESS ── */
+    #success {
+      display: none;
+      padding: 80px 24px;
+      text-align: center;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    #success.visible { display: block; }
+    .success-icon { font-size: 4rem; margin-bottom: 20px; }
+    #success h2 { font-size: 2rem; font-weight: 800; margin-bottom: 12px; }
+    #success p { color: var(--mid); margin-bottom: 8px; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid var(--border);
+      font-size: .85rem;
+      color: var(--mid);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 16px 20px; }
+      .product-card { grid-template-columns: 1fr; }
+      .options { grid-template-columns: 1fr; }
+      .quiz-card { padding: 28px 20px; }
+      .cta-row { flex-direction: column; }
+      .specs { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">cool<span>r</span></div>
+  <div>
+    <a href="#how">How it works</a>
+    <a href="#quiz" class="btn btn-primary" style="margin-left:16px">Find my AC</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="badge">No showroom. No salesperson. No pressure.</div>
+  <h1>The <em>right AC</em> for your space, in 5 questions.</h1>
+  <p>Tell us about your room. We'll pick one unit — the best one for you — and deliver it to your door.</p>
+  <a href="#quiz" class="btn btn-primary btn-xl">Find my AC →</a>
+  <div class="hero-sub">
+    <span>Free delivery</span>
+    <span>30-day returns</span>
+    <span>No upsells</span>
+    <span>Install add-on available</span>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-label">How it works</div>
+  <h2>From questions to cool air in minutes.</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Answer 5 questions</h3>
+      <p>Room size, climate, windows, budget. That's it.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Get one recommendation</h3>
+      <p>Not 47 options — one unit, chosen for your exact situation.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>We deliver it</h3>
+      <p>Free delivery. Add installation at checkout if you want help.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h3>Stay cool</h3>
+      <p>30-day returns. We'll remind you when to clean the filter.</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <div class="section-label">The Finder</div>
+  <h2>Find your AC</h2>
+  <p>5 questions. One perfect unit. Takes about 90 seconds.</p>
+
+  <div class="quiz-card">
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress" style="width:20%"></div>
+    </div>
+
+    <!-- Q1: Room size -->
+    <div class="q-step active" id="q1">
+      <h3>How big is the room?</h3>
+      <div class="q-sub">Measure length × width, or pick your best guess.</div>
+      <div class="options">
+        <button class="option" data-q="size" data-val="small" onclick="pick(this)">
+          <span class="opt-icon">🛏</span>
+          <div class="opt-label">Small</div>
+          <div class="opt-desc">Under 150 sq ft — bedroom, office</div>
+        </button>
+        <button class="option" data-q="size" data-val="medium" onclick="pick(this)">
+          <span class="opt-icon">🛋</span>
+          <div class="opt-label">Medium</div>
+          <div class="opt-desc">150–300 sq ft — living room</div>
+        </button>
+        <button class="option" data-q="size" data-val="large" onclick="pick(this)">
+          <span class="opt-icon">🏠</span>
+          <div class="opt-label">Large</div>
+          <div class="opt-desc">300–500 sq ft — open plan</div>
+        </button>
+        <button class="option" data-q="size" data-val="xl" onclick="pick(this)">
+          <span class="opt-icon">🏢</span>
+          <div class="opt-label">XL</div>
+          <div class="opt-desc">500+ sq ft — whole floor</div>
+        </button>
+      </div>
+      <div class="quiz-nav">
+        <span class="q-counter">1 of 5</span>
+        <button class="btn btn-primary" onclick="nextQ(2)" id="next1" disabled>Next →</button>
+      </div>
+    </div>
+
+    <!-- Q2: Climate -->
+    <div class="q-step" id="q2">
+      <h3>What's your climate like in summer?</h3>
+      <div class="q-sub">This affects how hard the unit needs to work.</div>
+      <div class="options">
+        <button class="option" data-q="climate" data-val="mild" onclick="pick(this)">
+          <span class="opt-icon">🌤</span>
+          <div class="opt-label">Mild</div>
+          <div class="opt-desc">Rarely above 80°F</div>
+        </button>
+        <button class="option" data-q="climate" data-val="moderate" onclick="pick(this)">
+          <span class="opt-icon">☀️</span>
+          <div class="opt-label">Moderate</div>
+          <div class="opt-desc">80–90°F most days</div>
+        </button>
+        <button class="option" data-q="climate" data-val="hot" onclick="pick(this)">
+          <span class="opt-icon">🌡</span>
+          <div class="opt-label">Hot</div>
+          <div class="opt-desc">90°F+ regularly</div>
+        </button>
+        <button class="option" data-q="climate" data-val="humid" onclick="pick(this)">
+          <span class="opt-icon">💧</span>
+          <div class="opt-label">Hot & Humid</div>
+          <div class="opt-desc">Feels like 100°F+</div>
+        </button>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn btn-ghost" onclick="prevQ(1)">← Back</button>
+        <span class="q-counter">2 of 5</span>
+        <button class="btn btn-primary" onclick="nextQ(3)" id="next2" disabled>Next →</button>
+      </div>
+    </div>
+
+    <!-- Q3: Window situation -->
+    <div class="q-step" id="q3">
+      <h3>What's your window situation?</h3>
+      <div class="q-sub">This determines which type of unit fits your space.</div>
+      <div class="options single-col">
+        <button class="option" data-q="window" data-val="standard" onclick="pick(this)">
+          <span class="opt-icon">🪟</span>
+          <div class="opt-label">Standard double-hung window</div>
+          <div class="opt-desc">The classic kind that slides up and down</div>
+        </button>
+        <button class="option" data-q="window" data-val="sliding" onclick="pick(this)">
+          <span class="opt-icon">🚪</span>
+          <div class="opt-label">Sliding window or glass door</div>
+          <div class="opt-desc">Opens side to side</div>
+        </button>
+        <button class="option" data-q="window" data-val="nowindow" onclick="pick(this)">
+          <span class="opt-icon">🚫</span>
+          <div class="opt-label">No suitable window</div>
+          <div class="opt-desc">Interior room or can't use windows</div>
+        </button>
+        <button class="option" data-q="window" data-val="minisplit" onclick="pick(this)">
+          <span class="opt-icon">⚡</span>
+          <div class="opt-label">I want a permanent solution</div>
+          <div class="opt-desc">Fine with professional installation</div>
+        </button>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn btn-ghost" onclick="prevQ(2)">← Back</button>
+        <span class="q-counter">3 of 5</span>
+        <button class="btn btn-primary" onclick="nextQ(4)" id="next3" disabled>Next →</button>
+      </div>
+    </div>
+
+    <!-- Q4: Sun exposure -->
+    <div class="q-step" id="q4">
+      <h3>How sunny is the room?</h3>
+      <div class="q-sub">Direct sun adds extra heat load we need to account for.</div>
+      <div class="options">
+        <button class="option" data-q="sun" data-val="shady" onclick="pick(this)">
+          <span class="opt-icon">🌥</span>
+          <div class="opt-label">Mostly shaded</div>
+          <div class="opt-desc">North-facing or well-shaded</div>
+        </button>
+        <button class="option" data-q="sun" data-val="mixed" onclick="pick(this)">
+          <span class="opt-icon">⛅</span>
+          <div class="opt-label">Some sun</div>
+          <div class="opt-desc">A few hours of direct light</div>
+        </button>
+        <button class="option" data-q="sun" data-val="sunny" onclick="pick(this)">
+          <span class="opt-icon">🌞</span>
+          <div class="opt-label">Very sunny</div>
+          <div class="opt-desc">South or west-facing, lots of glass</div>
+        </button>
+        <button class="option" data-q="sun" data-val="unsure" onclick="pick(this)">
+          <span class="opt-icon">🤷</span>
+          <div class="opt-label">Not sure</div>
+          <div class="opt-desc">We'll factor in a safety margin</div>
+        </button>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn btn-ghost" onclick="prevQ(3)">← Back</button>
+        <span class="q-counter">4 of 5</span>
+        <button class="btn btn-primary" onclick="nextQ(5)" id="next4" disabled>Next →</button>
+      </div>
+    </div>
+
+    <!-- Q5: Budget -->
+    <div class="q-step" id="q5">
+      <h3>What's your budget?</h3>
+      <div class="q-sub">We'll find the best unit within your range — no upselling.</div>
+      <div class="options">
+        <button class="option" data-q="budget" data-val="low" onclick="pick(this)">
+          <span class="opt-icon">💵</span>
+          <div class="opt-label">Under $350</div>
+          <div class="opt-desc">Get the job done</div>
+        </button>
+        <button class="option" data-q="budget" data-val="mid" onclick="pick(this)">
+          <span class="opt-icon">💳</span>
+          <div class="opt-label">$350–$700</div>
+          <div class="opt-desc">Better efficiency & quieter</div>
+        </button>
+        <button class="option" data-q="budget" data-val="high" onclick="pick(this)">
+          <span class="opt-icon">💎</span>
+          <div class="opt-label">$700–$1,500</div>
+          <div class="opt-desc">Top-tier comfort, low energy bills</div>
+        </button>
+        <button class="option" data-q="budget" data-val="premium" onclick="pick(this)">
+          <span class="opt-icon">🏆</span>
+          <div class="opt-label">$1,500+</div>
+          <div class="opt-desc">Best-in-class, no compromises</div>
+        </button>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn btn-ghost" onclick="prevQ(4)">← Back</button>
+        <span class="q-counter">5 of 5</span>
+        <button class="btn btn-primary btn-lg" onclick="showResult()" id="next5" disabled>See my AC →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULT -->
+<section id="result">
+  <div class="result-header">
+    <div class="badge-green">Your perfect match</div>
+    <h2 id="result-headline">We found it.</h2>
+    <p id="result-sub">Based on your answers, here's the one AC we'd put in your room.</p>
+  </div>
+  <div class="product-card">
+    <div class="product-img" id="product-emoji">❄️</div>
+    <div class="product-info">
+      <div class="product-type" id="product-type">Window Air Conditioner</div>
+      <div class="product-name" id="product-name">Coolr Comfort 8000</div>
+      <div class="product-tagline" id="product-tagline">Quiet, efficient, and sized exactly right for your room.</div>
+      <div class="product-price" id="product-price">$299 <span>free delivery</span></div>
+      <div class="financing" id="product-financing">Or <strong>$25/mo</strong> with 0% financing for 12 months.</div>
+
+      <div class="why-box" id="why-box">
+        <strong>Why this unit?</strong> <span id="why-text"></span>
+      </div>
+
+      <div class="specs" id="specs-grid"></div>
+
+      <div class="cta-row">
+        <button class="btn btn-primary btn-lg" onclick="openCheckout()">Buy now →</button>
+        <button class="btn btn-ghost btn-lg" onclick="restartQuiz()">Retake quiz</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUCCESS -->
+<section id="success">
+  <div class="success-icon">🎉</div>
+  <h2>Order placed!</h2>
+  <p>Your AC is on its way. You'll get a confirmation email shortly.</p>
+  <p style="margin-top:8px">Estimated delivery: <strong>2–4 business days</strong></p>
+  <div style="margin-top:32px">
+    <button class="btn btn-ghost btn-lg" onclick="restartAll()">Start over</button>
+  </div>
+</section>
+
+<!-- CHECKOUT MODAL -->
+<div class="overlay" id="overlay" onclick="closeCheckoutOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeCheckout()">✕</button>
+    <h3>Checkout</h3>
+    <div class="modal-sub">You're one step away from staying cool.</div>
+
+    <div class="order-summary" id="order-summary"></div>
+
+    <form onsubmit="placeOrder(event)">
+      <div class="field">
+        <label>Full name</label>
+        <input type="text" placeholder="Jane Smith" required />
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" placeholder="jane@example.com" required />
+      </div>
+      <div class="field">
+        <label>Delivery address</label>
+        <input type="text" placeholder="123 Main St" required />
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>City</label>
+          <input type="text" placeholder="New York" required />
+        </div>
+        <div class="field-row" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="field">
+            <label>State</label>
+            <input type="text" placeholder="NY" maxlength="2" required />
+          </div>
+          <div class="field">
+            <label>ZIP</label>
+            <input type="text" placeholder="10001" required />
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Add professional installation?</label>
+        <select id="install-select" onchange="updateOrderSummary()">
+          <option value="0">No thanks, I'll install it myself</option>
+          <option value="149">Yes — add installation ($149)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Card number</label>
+        <input type="text" placeholder="4242 4242 4242 4242" maxlength="19" required />
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Expiry</label>
+          <input type="text" placeholder="MM / YY" maxlength="7" required />
+        </div>
+        <div class="field">
+          <label>CVC</label>
+          <input type="text" placeholder="123" maxlength="4" required />
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-lg" style="width:100%">Place order →</button>
+      <div class="secure-note">🔒 Secured with 256-bit SSL encryption. 30-day free returns.</div>
+    </form>
+  </div>
+</div>
+
+<footer>
+  © 2025 Coolr, Inc. · <a href="#" style="color:inherit">Privacy</a> · <a href="#" style="color:inherit">Terms</a> · <a href="#" style="color:inherit">Contact</a>
+</footer>
+
+<script>
+  const answers = {};
+
+  // Product catalog — 8 curated SKUs
+  const catalog = [
+    {
+      id: "window-small-budget",
+      name: "Coolr Aire 5000",
+      type: "Window Air Conditioner",
+      emoji: "🪟❄️",
+      tagline: "The no-fuss window unit that gets a small room ice-cold fast.",
+      price: 249,
+      monthly: 21,
+      months: 12,
+      btu: "5,000 BTU",
+      coverage: "Up to 150 sq ft",
+      noise: "42 dB (library-quiet)",
+      energy: "Energy Star certified",
+      why: "For a small room with a standard window, this 5,000 BTU unit is exactly what you need — not too big, not too small. It'll cool your space in under 20 minutes.",
+      match: (a) => a.size === "small" && a.window === "standard" && ["low","mid"].includes(a.budget),
+    },
+    {
+      id: "window-medium-budget",
+      name: "Coolr Aire 8000",
+      type: "Window Air Conditioner",
+      emoji: "🪟❄️",
+      tagline: "The sweet-spot window unit — powerful, efficient, whisper-quiet.",
+      price: 329,
+      monthly: 28,
+      months: 12,
+      btu: "8,000 BTU",
+      coverage: "Up to 300 sq ft",
+      noise: "44 dB",
+      energy: "Energy Star certified",
+      why: "Your medium-sized room needs 8,000 BTU to stay comfortable — especially accounting for your climate and sun exposure. This unit hits that target perfectly.",
+      match: (a) => a.size === "medium" && a.window === "standard" && ["low","mid"].includes(a.budget),
+    },
+    {
+      id: "window-medium-high",
+      name: "Coolr Pro 10000",
+      type: "Window Air Conditioner — Smart",
+      emoji: "🪟🌟",
+      tagline: "Wi-Fi enabled. Learns your schedule. Saves 30% on energy.",
+      price: 549,
+      monthly: 46,
+      months: 12,
+      btu: "10,000 BTU",
+      coverage: "Up to 350 sq ft",
+      noise: "40 dB (ultra-quiet)",
+      energy: "Energy Star Most Efficient",
+      why: "With your climate and budget, you'll appreciate the smart scheduling — it pre-cools before you get home and cuts off when you leave, saving real money over time.",
+      match: (a) => a.size === "medium" && a.window === "standard" && ["high","premium"].includes(a.budget),
+    },
+    {
+      id: "window-large",
+      name: "Coolr Aire 12000",
+      type: "Window Air Conditioner",
+      emoji: "🪟💪",
+      tagline: "Big room power in a slim, easy-install package.",
+      price: 449,
+      monthly: 38,
+      months: 12,
+      btu: "12,000 BTU",
+      coverage: "Up to 500 sq ft",
+      noise: "46 dB",
+      energy: "Energy Star certified",
+      why: "Large rooms need real BTUs. This 12,000 BTU unit will cool your space thoroughly without straining, and the oversized drain pan handles high humidity climates.",
+      match: (a) => a.size === "large" && a.window === "standard" && ["low","mid"].includes(a.budget),
+    },
+    {
+      id: "portable-nowindow",
+      name: "Coolr Move 10000",
+      type: "Portable Air Conditioner",
+      emoji: "🌀❄️",
+      tagline: "Cools any room, no window required. Roll it where you need it.",
+      price: 399,
+      monthly: 33,
+      months: 12,
+      btu: "10,000 BTU",
+      coverage: "Up to 300 sq ft",
+      noise: "48 dB",
+      energy: "Energy Star certified",
+      why: "Since you don't have a suitable window, a portable unit is the smart move. It vents through a small hose in any door or window crack — no permanent installation needed.",
+      match: (a) => a.window === "nowindow",
+    },
+    {
+      id: "sliding-window",
+      name: "Coolr Slide 8000",
+      type: "Casement / Sliding Window AC",
+      emoji: "↔️❄️",
+      tagline: "Designed from the ground up for sliding windows and glass doors.",
+      price: 379,
+      monthly: 32,
+      months: 12,
+      btu: "8,000 BTU",
+      coverage: "Up to 300 sq ft",
+      noise: "44 dB",
+      energy: "Energy Star certified",
+      why: "Most window ACs don't fit sliding windows — this one does. It's specifically engineered to mount in casement and sliding openings without any hacks or adapters.",
+      match: (a) => a.window === "sliding",
+    },
+    {
+      id: "minisplit-mid",
+      name: "Coolr Split 12000",
+      type: "Ductless Mini-Split",
+      emoji: "🏠❄️",
+      tagline: "The quietest, most efficient way to cool a room. No window needed.",
+      price: 899,
+      monthly: 75,
+      months: 12,
+      btu: "12,000 BTU (1 ton)",
+      coverage: "Up to 500 sq ft",
+      noise: "19 dB (barely audible)",
+      energy: "24.5 SEER — Energy Star Most Efficient",
+      why: "You want a permanent solution — this is it. Mini-splits are the gold standard: quieter than a whisper, 40% more efficient than window units, and they heat too.",
+      match: (a) => a.window === "minisplit" && ["mid","high"].includes(a.budget),
+    },
+    {
+      id: "minisplit-premium",
+      name: "Coolr Split 18000 Pro",
+      type: "Ductless Mini-Split — Inverter",
+      emoji: "🏠🌟",
+      tagline: "Inverter-driven. Near-silent. The best residential AC on the market.",
+      price: 1399,
+      monthly: 117,
+      months: 12,
+      btu: "18,000 BTU (1.5 ton)",
+      coverage: "Up to 750 sq ft",
+      noise: "17 dB",
+      energy: "27 SEER — Industry leading",
+      why: "With no budget constraint, this inverter mini-split is the objectively best choice. It self-adjusts power to maintain exact temperature, using up to 60% less electricity.",
+      match: (a) => a.window === "minisplit" && ["premium"].includes(a.budget),
+    },
+  ];
+
+  // Fallback product
+  const fallback = catalog[1];
+
+  function pick(btn) {
+    const q = btn.dataset.q;
+    const val = btn.dataset.val;
+    // Deselect siblings
+    btn.closest(".options").querySelectorAll(".option").forEach(o => o.classList.remove("selected"));
+    btn.classList.add("selected");
+    answers[q] = val;
+    // Enable next button in the same q-step
+    const step = btn.closest(".q-step");
+    const nextBtn = step.querySelector("button[id^='next']");
+    if (nextBtn) nextBtn.disabled = false;
+  }
+
+  function nextQ(n) {
+    document.querySelectorAll(".q-step").forEach(s => s.classList.remove("active"));
+    document.getElementById("q" + n).classList.add("active");
+    document.getElementById("progress").style.width = (n * 20) + "%";
+    window.scrollTo({ top: document.getElementById("quiz").offsetTop - 80, behavior: "smooth" });
+  }
+
+  function prevQ(n) {
+    document.querySelectorAll(".q-step").forEach(s => s.classList.remove("active"));
+    document.getElementById("q" + n).classList.add("active");
+    document.getElementById("progress").style.width = (n * 20) + "%";
+  }
+
+  function recommend() {
+    for (const p of catalog) {
+      if (p.match(answers)) return p;
+    }
+    // Soft fallback: match on window type
+    const byWindow = catalog.find(p => p.match({ ...answers, budget: "mid" }));
+    return byWindow || fallback;
+  }
+
+  let currentProduct = null;
+
+  function showResult() {
+    currentProduct = recommend();
+    const p = currentProduct;
+
+    document.getElementById("product-emoji").textContent = p.emoji;
+    document.getElementById("product-type").textContent = p.type;
+    document.getElementById("product-name").textContent = p.name;
+    document.getElementById("product-tagline").textContent = p.tagline;
+    document.getElementById("product-price").innerHTML = `$${p.price.toLocaleString()} <span>free delivery</span>`;
+    document.getElementById("product-financing").innerHTML = `Or <strong>$${p.monthly}/mo</strong> with 0% financing for ${p.months} months.`;
+    document.getElementById("why-text").textContent = p.why;
+
+    document.getElementById("specs-grid").innerHTML = `
+      <div class="spec"><div class="spec-label">Capacity</div><div class="spec-val">${p.btu}</div></div>
+      <div class="spec"><div class="spec-label">Coverage</div><div class="spec-val">${p.coverage}</div></div>
+      <div class="spec"><div class="spec-label">Noise level</div><div class="spec-val">${p.noise}</div></div>
+      <div class="spec"><div class="spec-label">Efficiency</div><div class="spec-val">${p.energy}</div></div>
+    `;
+
+    document.getElementById("quiz").style.display = "none";
+    document.getElementById("result").classList.add("visible");
+    window.scrollTo({ top: document.getElementById("result").offsetTop - 80, behavior: "smooth" });
+  }
+
+  function openCheckout() {
+    updateOrderSummary();
+    document.getElementById("overlay").classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeCheckout() {
+    document.getElementById("overlay").classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  function closeCheckoutOutside(e) {
+    if (e.target === document.getElementById("overlay")) closeCheckout();
+  }
+
+  function updateOrderSummary() {
+    if (!currentProduct) return;
+    const p = currentProduct;
+    const installCost = parseInt(document.getElementById("install-select").value);
+    const total = p.price + installCost;
+    document.getElementById("order-summary").innerHTML = `
+      <div class="order-line"><span>${p.name}</span><span>$${p.price}</span></div>
+      <div class="order-line"><span>Delivery</span><span style="color:var(--green)">Free</span></div>
+      ${installCost ? `<div class="order-line"><span>Professional installation</span><span>$${installCost}</span></div>` : ""}
+      <div class="order-line total"><span>Total</span><span>$${total}</span></div>
+    `;
+  }
+
+  function placeOrder(e) {
+    e.preventDefault();
+    closeCheckout();
+    document.getElementById("result").classList.remove("visible");
+    document.getElementById("success").classList.add("visible");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function restartQuiz() {
+    Object.keys(answers).forEach(k => delete answers[k]);
+    document.querySelectorAll(".option").forEach(o => o.classList.remove("selected"));
+    document.querySelectorAll("button[id^='next']").forEach(b => b.disabled = true);
+    document.getElementById("result").classList.remove("visible");
+    document.getElementById("quiz").style.display = "";
+    nextQ(1);
+    document.getElementById("progress").style.width = "20%";
+  }
+
+  function restartAll() {
+    document.getElementById("success").classList.remove("visible");
+    restartQuiz();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+</script>
+
+</body>
+</html>
