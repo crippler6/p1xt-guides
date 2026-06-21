@@ -114,9 +114,31 @@
     .spec-label { font-size:.72rem; color:var(--mid); }
     .spec-val   { font-size:.92rem; font-weight:700; }
     .cta-row { display:flex; gap:10px; flex-wrap:wrap; }
+    /* tier switcher */
     .ton-switch { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:18px; }
     .ton-chip { border:1.5px solid var(--border); border-radius:8px; padding:7px 14px; font-size:.83rem; font-weight:600; cursor:pointer; background:#fff; }
     .ton-chip.active { border-color:var(--blue); background:var(--sky); color:var(--blue); }
+
+    /* good/better tier cards */
+    .tier-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:820px; margin:0 auto 24px; }
+    .tier-card { border:2px solid var(--border); border-radius:20px; padding:28px 24px; cursor:pointer; transition:all .18s; background:#fff; position:relative; }
+    .tier-card:hover { border-color:var(--blue); box-shadow:0 4px 24px rgba(26,108,246,.08); }
+    .tier-card.selected { border-color:var(--blue); background:var(--sky); box-shadow:0 0 0 4px rgba(26,108,246,.1); }
+    .tier-card.better { border-color:var(--blue); }
+    .tier-badge { position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--blue); color:#fff; font-size:.68rem; font-weight:800; letter-spacing:.07em; text-transform:uppercase; padding:4px 12px; border-radius:100px; white-space:nowrap; }
+    .tier-label { font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--mid); margin-bottom:6px; }
+    .tier-name { font-size:1.25rem; font-weight:800; margin-bottom:4px; }
+    .tier-tagline { font-size:.82rem; color:var(--mid); margin-bottom:16px; }
+    .tier-price { font-size:1.6rem; font-weight:900; margin-bottom:2px; }
+    .tier-price small { font-size:.85rem; font-weight:500; color:var(--mid); }
+    .tier-full { font-size:.78rem; color:var(--mid); margin-bottom:14px; }
+    .tier-bullets { list-style:none; margin-bottom:14px; }
+    .tier-bullets li { font-size:.82rem; padding:4px 0; padding-left:18px; position:relative; color:var(--dark); }
+    .tier-bullets li::before { content:"✓"; position:absolute; left:0; color:var(--green); font-weight:800; font-size:.75rem; }
+    .tier-select-btn { width:100%; padding:10px; border-radius:8px; font-weight:700; font-size:.88rem; border:1.5px solid var(--blue); background:#fff; color:var(--blue); cursor:pointer; transition:all .15s; }
+    .tier-card.selected .tier-select-btn { background:var(--blue); color:#fff; }
+    .btm-banner { max-width:820px; margin:0 auto 20px; background:#fff7ed; border:1px solid #fed7aa; border-radius:10px; padding:11px 16px; font-size:.82rem; color:#9a3412; font-weight:600; text-align:center; }
+    @media(max-width:600px){ .tier-row{grid-template-columns:1fr;} }
 
     /* ─── PHOTOS ─── */
     .photo-intro { max-width:680px; margin:0 auto 28px; background:var(--amber-bg); border:1px solid var(--amber); border-radius:12px; padding:16px 20px; font-size:.88rem; color:var(--amber-dk); }
@@ -350,30 +372,34 @@
 <section class="stage" id="stage-result">
   <div id="trk-result"></div>
   <div class="stage-head">
-    <div class="pill pill-green">Your perfect match</div>
-    <h2>We found your system.</h2>
-    <p>We've pre-selected the right tonnage — adjust if you know your space better.</p>
+    <div class="pill pill-green">Your system</div>
+    <h2 id="result-headline">We found your system.</h2>
+    <p id="result-sub">Pick your tier — that's the only decision. Adjust size if you want.</p>
   </div>
+
+  <!-- Beat the middleman banner -->
+  <div class="btm-banner">
+    🚫 No dealer. No sales rep. No markup. These are the same Midea-sourced units HVAC companies charge 2–3× for — you pay our direct price.
+  </div>
+
+  <!-- Tonnage switcher -->
   <div class="ton-switch" id="ton-switch"></div>
-  <div class="product-card">
-    <div class="product-img" id="p-emoji">❄️</div>
-    <div class="product-info">
-      <div class="p-type"     id="p-type"></div>
-      <div class="p-name"     id="p-name"></div>
-      <div class="p-tagline"  id="p-tagline"></div>
-      <div class="p-price-block">
-        <div class="p-monthly" id="p-monthly"></div>
-        <div class="p-full"    id="p-full"></div>
-      </div>
-      <div class="fin-banner">💳 Financing available through finance.it and partners — apply at checkout <em>(coming soon)</em></div>
-      <div class="war-banner">🛡 Third-party warranty plans available at checkout <em>(coming soon)</em></div>
-      <div class="why-box"><strong>Why this system?</strong> <span id="p-why"></span></div>
-      <div class="specs" id="p-specs"></div>
-      <div class="cta-row">
-        <button class="btn btn-primary btn-lg" onclick="goStage('photos')">Continue: take photos →</button>
-        <button class="btn btn-ghost btn-lg"   onclick="goStage('quiz')">Retake quiz</button>
-      </div>
-    </div>
+
+  <!-- Good / Better tier cards -->
+  <div class="tier-row" id="tier-row"></div>
+
+  <!-- Why this recommendation -->
+  <div class="why-box" style="max-width:820px;margin:0 auto 20px;"><strong>Why this recommendation?</strong> <span id="p-why"></span></div>
+
+  <!-- Financing / warranty teasers -->
+  <div style="max-width:820px;margin:0 auto 24px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+    <div class="fin-banner" style="margin:0">💳 Financing coming soon — finance.it and partners. Pay monthly, not all at once.</div>
+    <div class="war-banner" style="margin:0">🛡 Extended warranty plans coming soon — third-party backed, no dealer needed.</div>
+  </div>
+
+  <div class="cta-row" style="justify-content:center">
+    <button class="btn btn-primary btn-lg" id="result-next" onclick="goStage('photos')" disabled>Continue: take photos →</button>
+    <button class="btn btn-ghost btn-lg" onclick="goStage('quiz')">Retake quiz</button>
   </div>
 </section>
 
@@ -664,28 +690,96 @@ const TONS = {
   "1.5" :{ ton:"1.5 ton",  btu:"18,000 BTU" },
   "2"   :{ ton:"2 ton",    btu:"24,000 BTU" },
 };
-const FAMILIES = {
-  minisplit:{
-    type:"Ductless Mini-Split",
-    emoji:"🌡❄️",
-    name:t=>`Coolr Split ${TONS[t].btu.replace(',','').replace(' BTU','')}`,
-    tagline:"Near-silent, inverter-driven, no ductwork required.",
-    basePrice:{ "0.75":2190, "1":2490, "1.5":2990, "2":3490 },
-    baseInstall:{ "0.75":650, "1":750, "1.5":850, "2":950 },
-    noise:"19 dB (barely audible)",
-    energy:"22+ SEER2 · Energy Star Most Efficient",
-    why:t=>`A ${TONS[t].ton} ductless mini-split is the cleanest fit: no ducts to run, inverter-driven for exact temps, and it heats in winter too. Sized to ${TONS[t].btu} for your square footage and climate.`,
+
+// Two product lines, two tiers each. Prices are equipment only — install added at checkout.
+// Sourced from Midea platform (mini-split) and Midea/Goodman platform (central).
+const CATALOG = {
+  minisplit: {
+    type: "Ductless Mini-Split",
+    emoji: "🌡❄️",
+    why: t => `A ${TONS[t].ton} ductless mini-split is the right call with no existing ductwork — no ducts to run, works as a heater too, and installs in a day. We sized it to ${TONS[t].btu} based on your room and climate.`,
+    tiers: {
+      good: {
+        label: "Good",
+        name: t => `Coolr Split ${TONS[t].ton} — Standard`,
+        tagline: "Reliable, simple, gets the job done. Zero frills, zero regrets.",
+        bullets: [
+          "Midea-sourced rotary compressor (workhorse)",
+          "R-32 refrigerant — modern & serviceable",
+          "16 SEER2 efficiency",
+          "Works with any 24V thermostat",
+          "Standard parts at any supply house",
+          "5-year compressor warranty",
+        ],
+        equipment: { "0.75":699,  "1":799,  "1.5":949,  "2":1099 },
+        install:   { "0.75":550,  "1":650,  "1.5":750,  "2":850  },
+        seer: "16 SEER2",
+        noise: "46 dB",
+        refrigerant: "R-32",
+      },
+      better: {
+        label: "Better",
+        name: t => `Coolr Split ${TONS[t].ton} — Inverter`,
+        tagline: "Inverter-driven. Quieter. Saves on your electric bill every month.",
+        bullets: [
+          "Midea inverter compressor — ramps up/down precisely",
+          "R-32 refrigerant — modern & serviceable",
+          "20 SEER2 efficiency (~25% cheaper to run vs. Good)",
+          "Works with any 24V thermostat",
+          "Wi-Fi ready (optional module)",
+          "7-year compressor warranty",
+        ],
+        equipment: { "0.75":949,  "1":1099, "1.5":1299, "2":1549 },
+        install:   { "0.75":550,  "1":650,  "1.5":750,  "2":850  },
+        seer: "20 SEER2",
+        noise: "38 dB",
+        refrigerant: "R-32",
+      },
+    },
   },
-  central:{
-    type:"Central AC + Evaporator Coil",
-    emoji:"🏠❄️",
-    name:t=>`Coolr Central ${TONS[t].ton.replace(' ','')}`,
-    tagline:"Whole-home comfort paired with your furnace & ducts.",
-    basePrice:{ "0.75":2990, "1":3290, "1.5":3990, "2":4690 },
-    baseInstall:{ "0.75":800, "1":900, "1.5":1050, "2":1200 },
-    noise:"54 dB outdoor condenser",
-    energy:"16 SEER2 · Energy Star certified",
-    why:t=>`Since you have ductwork, a ${TONS[t].ton} central AC + matched evaporator coil gives you even whole-home cooling at the lowest cost per sq ft. Sized to ${TONS[t].btu}.`,
+  central: {
+    type: "Central AC + Evaporator Coil",
+    emoji: "🏠❄️",
+    why: t => `Since you have ductwork and a furnace, pairing a ${TONS[t].ton} condenser with a matched evaporator coil is the most cost-effective whole-home solution. Uses standard 24V wiring — works with any thermostat you already own.`,
+    tiers: {
+      good: {
+        label: "Good",
+        name: t => `Coolr Central ${TONS[t].ton} — Single Stage`,
+        tagline: "Single-stage workhorse. On or off, cools fast, easy to service.",
+        bullets: [
+          "Copeland scroll compressor — industry standard",
+          "R-454B refrigerant (A2L, new standard)",
+          "14.3 SEER2 efficiency",
+          "Works with any 24V thermostat",
+          "Parts at every HVAC supply house",
+          "5-year parts warranty",
+        ],
+        equipment: { "1":899,  "1.5":1099, "2":1299 },
+        install:   { "1":850,  "1.5":1000, "2":1150 },
+        seer: "14.3 SEER2",
+        noise: "72 dB",
+        refrigerant: "R-454B",
+      },
+      better: {
+        label: "Better",
+        name: t => `Coolr Central ${TONS[t].ton} — Two Stage`,
+        tagline: "Two-stage means quieter operation and better humidity control.",
+        bullets: [
+          "Copeland two-stage scroll compressor",
+          "R-454B refrigerant (A2L, new standard)",
+          "17 SEER2 efficiency — real monthly savings",
+          "Works with any 24V thermostat",
+          "Runs on low stage ~80% of the time — quieter",
+          "10-year parts warranty",
+        ],
+        equipment: { "1":1199, "1.5":1449, "2":1699 },
+        install:   { "1":850,  "1.5":1000, "2":1150 },
+        seer: "17 SEER2",
+        noise: "66 dB",
+        refrigerant: "R-454B",
+      },
+    },
+    tons: ["1","1.5","2"],
   },
 };
 const INSTALLERS = [
@@ -720,7 +814,7 @@ const DOM_STEPS_INSTALL = [
    STATE
 ═══════════════════════════════════════════ */
 const answers = {};
-const order   = { product:null, ton:null, family:null, photos:{}, slot:null, installer:null, rating:0 };
+const order   = { product:null, ton:null, family:null, tier:null, photos:{}, slot:null, installer:null, rating:0 };
 
 /* ═══════════════════════════════════════════
    QUIZ
@@ -742,40 +836,79 @@ function _showQ(n){ document.querySelectorAll(".q-step").forEach(s=>s.classList.
 function recommendFamily(){ return (["wholehome","replace"].includes(answers.scope)||answers.duct==="furnace"||answers.duct==="ducts-only") ? "central" : "minisplit"; }
 function recommendTon(){
   let t=({xs:"0.75",sm:"1",md:"1.5",lg:"2"})[answers.size]||"1";
+  // central doesn't have 0.75 ton — floor to 1
+  if(order.family==="central" && t==="0.75") t="1";
   if(["hot","humid"].includes(answers.climate)&&t!=="2"){ const o=["0.75","1","1.5","2"]; t=o[Math.min(o.indexOf(t)+1,3)]; }
+  if(order.family==="central" && t==="0.75") t="1";
   return t;
 }
 function showResult(){
   order.family = recommendFamily();
+  order.tier   = "better"; // default to Better (highlighted)
   order.ton    = recommendTon();
   renderTonSwitch();
-  renderProduct();
+  renderTierCards();
+  document.getElementById("p-why").textContent = CATALOG[order.family].why(order.ton);
   goStage("result");
 }
 function renderTonSwitch(){
-  const tons = order.family==="minisplit" ? ["0.75","1","1.5","2"] : ["1","1.5","2"];
+  const fam = CATALOG[order.family];
+  const tons = fam.tons || ["0.75","1","1.5","2"];
   document.getElementById("ton-switch").innerHTML = tons.map(t=>
     `<div class="ton-chip ${t===order.ton?"active":""}" onclick="setTon('${t}')">${TONS[t].ton}</div>`
   ).join("");
 }
-function setTon(t){ order.ton=t; renderTonSwitch(); renderProduct(); }
-function renderProduct(){
-  const fam=FAMILIES[order.family], t=order.ton;
-  const fullPrice = fam.basePrice[t] + fam.baseInstall[t];
-  const monthly   = Math.round(fullPrice/24);
-  order.product = { name:fam.name(t), type:fam.type, fullPrice, monthly, ton:t, installBase:fam.baseInstall[t] };
-  document.getElementById("p-emoji").textContent   = fam.emoji;
-  document.getElementById("p-type").textContent    = fam.type;
-  document.getElementById("p-name").textContent    = fam.name(t);
-  document.getElementById("p-tagline").textContent = fam.tagline;
-  document.getElementById("p-monthly").innerHTML   = `$${monthly}<small>/mo est.</small>`;
-  document.getElementById("p-full").innerHTML      = `Or $${fullPrice.toLocaleString()} total installed · 0% financing available`;
-  document.getElementById("p-why").textContent     = fam.why(t);
-  document.getElementById("p-specs").innerHTML = `
-    <div class="spec"><div class="spec-label">Capacity</div><div class="spec-val">${TONS[t].ton} · ${TONS[t].btu}</div></div>
-    <div class="spec"><div class="spec-label">Type</div><div class="spec-val">${fam.type}</div></div>
-    <div class="spec"><div class="spec-label">Noise</div><div class="spec-val">${fam.noise}</div></div>
-    <div class="spec"><div class="spec-label">Efficiency</div><div class="spec-val">${fam.energy}</div></div>`;
+function setTon(t){ order.ton=t; renderTonSwitch(); renderTierCards(); document.getElementById("p-why").textContent = CATALOG[order.family].why(t); }
+function renderTierCards(){
+  const fam = CATALOG[order.family], t = order.ton;
+  const tiersHtml = Object.entries(fam.tiers).map(([key, tier])=>{
+    const equip   = tier.equipment[t] || 0;
+    const install = tier.install[t]   || 0;
+    const total   = equip + install;
+    const monthly = Math.round(total / 24);
+    const isBetter   = key === "better";
+    const isSelected = key === order.tier;
+    return `<div class="tier-card ${isBetter?"better":""} ${isSelected?"selected":""}" onclick="selectTier('${key}')">
+      ${isBetter ? '<span class="tier-badge">Most popular</span>' : ''}
+      <div class="tier-label">${tier.label}</div>
+      <div class="tier-name">${tier.name(t)}</div>
+      <div class="tier-tagline">${tier.tagline}</div>
+      <div class="tier-price">$${monthly}<small>/mo est.</small></div>
+      <div class="tier-full">$${total.toLocaleString()} total installed · equipment $${equip.toLocaleString()} + install $${install.toLocaleString()}</div>
+      <ul class="tier-bullets">${tier.bullets.map(b=>`<li>${b}</li>`).join("")}</ul>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;font-size:.76rem;">
+        <div style="background:var(--light);border-radius:6px;padding:7px 9px;"><span style="color:var(--mid)">Efficiency</span><br><strong>${tier.seer}</strong></div>
+        <div style="background:var(--light);border-radius:6px;padding:7px 9px;"><span style="color:var(--mid)">Noise</span><br><strong>${tier.noise}</strong></div>
+        <div style="background:var(--light);border-radius:6px;padding:7px 9px;"><span style="color:var(--mid)">Refrigerant</span><br><strong>${tier.refrigerant}</strong></div>
+        <div style="background:var(--light);border-radius:6px;padding:7px 9px;"><span style="color:var(--mid)">Capacity</span><br><strong>${TONS[t].btu}</strong></div>
+      </div>
+      <button class="tier-select-btn">${isSelected ? "✓ Selected" : "Select this tier"}</button>
+    </div>`;
+  }).join("");
+  document.getElementById("tier-row").innerHTML = tiersHtml;
+  document.getElementById("result-next").disabled = false;
+  // store product for checkout
+  const tier = fam.tiers[order.tier];
+  if(tier){
+    const equip   = tier.equipment[t] || 0;
+    const install = tier.install[t]   || 0;
+    const total   = equip + install;
+    order.product = {
+      name: tier.name(t),
+      type: fam.type,
+      tier: tier.label,
+      fullPrice: total,
+      equipPrice: equip,
+      installBase: install,
+      monthly: Math.round(total/24),
+      ton: t,
+      seer: tier.seer,
+    };
+  }
+}
+function selectTier(key){
+  order.tier = key;
+  renderTierCards();
 }
 
 /* ═══════════════════════════════════════════
@@ -815,12 +948,14 @@ const DEPOSIT = 99;
 function renderCheckoutSummary(){
   const p = order.product;
   document.getElementById("checkout-summary").innerHTML = `
-    <div class="order-line"><span>${p.name} (${TONS[p.ton].ton})</span><span>$${p.fullPrice.toLocaleString()}</span></div>
-    <div class="order-line"><span>Installation (base)</span><span>$${p.installBase.toLocaleString()}</span></div>
-    <div class="order-line"><span>Financing (0% · 24 mo est.)</span><span>~$${p.monthly}/mo</span></div>
-    <div class="order-line"><span>Warranty plan</span><span style="color:var(--mid)">Add at checkout (soon)</span></div>
+    <div class="order-line"><span>Equipment — ${p.name}</span><span>$${p.equipPrice.toLocaleString()}</span></div>
+    <div class="order-line"><span>Base installation (${p.tier} tier)</span><span>$${p.installBase.toLocaleString()}</span></div>
+    <div class="order-line"><span>Dealer markup</span><span style="color:var(--green);font-weight:700">$0 — none.</span></div>
+    <div class="order-line"><span>Sales commission</span><span style="color:var(--green);font-weight:700">$0 — none.</span></div>
+    <div class="order-line"><span>Estimated monthly (0% · 24 mo)</span><span>~$${p.monthly}/mo</span></div>
+    <div class="order-line"><span>Warranty plan</span><span style="color:var(--mid)">Coming soon</span></div>
     <div class="order-line total"><span>Refundable deposit today</span><span>$${DEPOSIT}</span></div>
-    <div style="font-size:.76rem;color:var(--mid);margin-top:6px">Balance due after assessment is approved and install is confirmed.</div>`;
+    <div style="font-size:.76rem;color:var(--mid);margin-top:6px">Balance ($${(p.fullPrice-DEPOSIT).toLocaleString()}) due only after assessment approved and install confirmed.</div>`;
 }
 function submitOrder(e){
   e.preventDefault();
@@ -884,7 +1019,7 @@ function pickSlot(el,label){
    INSTALLERS
 ═══════════════════════════════════════════ */
 function renderInstallers(){
-  const base = order.product ? order.product.installBase : 800;
+  const base = order.product ? (order.product.installBase || 800) : 800;
   document.getElementById("base-price-txt").textContent = `$${base.toLocaleString()}`;
   document.getElementById("installer-list").innerHTML = INSTALLERS.map((it,i)=>{
     const total = base + it.priceAdj;
