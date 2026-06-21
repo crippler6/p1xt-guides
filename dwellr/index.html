@@ -341,13 +341,13 @@
     </div>
 
     <div class="q-step" id="q3">
-      <h3>What's your summer climate?</h3>
-      <div class="q-sub">Hotter = we may size up one tier.</div>
+      <h3>Where's the home?</h3>
+      <div class="q-sub">We use your local summer weather to size things right — no guessing.</div>
       <div class="options">
-        <button class="option" data-q="climate" data-val="mild"     onclick="pick(this)"><span class="opt-icon">🌤</span><div class="opt-label">Mild</div><div class="opt-desc">Rarely above 80°F</div></button>
-        <button class="option" data-q="climate" data-val="moderate" onclick="pick(this)"><span class="opt-icon">☀️</span><div class="opt-label">Moderate</div><div class="opt-desc">80–90°F</div></button>
-        <button class="option" data-q="climate" data-val="hot"      onclick="pick(this)"><span class="opt-icon">🌡</span><div class="opt-label">Hot</div><div class="opt-desc">90°F+</div></button>
-        <button class="option" data-q="climate" data-val="humid"    onclick="pick(this)"><span class="opt-icon">💧</span><div class="opt-label">Hot & Humid</div><div class="opt-desc">Feels like 100°F+</div></button>
+        <button class="option" data-q="city" data-val="hamilton"     onclick="pick(this)"><span class="opt-icon">📍</span><div class="opt-label">Hamilton</div><div class="opt-desc">& Stoney Creek, Dundas</div></button>
+        <button class="option" data-q="city" data-val="burlington"   onclick="pick(this)"><span class="opt-icon">📍</span><div class="opt-label">Burlington / Oakville</div><div class="opt-desc">Halton region</div></button>
+        <button class="option" data-q="city" data-val="mississauga"  onclick="pick(this)"><span class="opt-icon">📍</span><div class="opt-label">Mississauga / Milton</div><div class="opt-desc">Peel region</div></button>
+        <button class="option" data-q="city" data-val="toronto"      onclick="pick(this)"><span class="opt-icon">📍</span><div class="opt-label">Toronto</div><div class="opt-desc">& Etobicoke, GTA west</div></button>
       </div>
       <div class="qnav"><button class="btn btn-ghost" onclick="prevQ(2)">← Back</button><span class="qctr">3 of 4</span><button class="btn btn-primary" onclick="nextQ(4)" id="nq3" disabled>Next →</button></div>
     </div>
@@ -420,13 +420,13 @@
   <div id="trk-photos"></div>
   <div class="stage-head">
     <div class="pill pill-amber">Step 2 · Photos</div>
-    <h2>Snap 6 photos of your space</h2>
-    <p>Our HVAC team reviews these before your install is approved. The more detail, the faster we can approve.</p>
+    <h2>Take 6 quick photos</h2>
+    <p>Just point your phone and snap. Our team looks at these so your installer shows up ready — no surprises, no wasted trips.</p>
   </div>
 
   <div class="photo-intro">
-    <strong>📸 Why we need these photos</strong>
-    We review every install remotely before assigning a tech. Good photos let us spot problems early — saving you time and the installer a wasted trip. Minimum 5 of 6 required.
+    <strong>📸 Why we ask for photos</strong>
+    A few clear photos let us plan your install before anyone comes out. That means a faster job and an accurate price. Take at least 5 of the 6 below — closer and brighter is always better.
   </div>
 
   <div class="upload-grid">
@@ -435,8 +435,8 @@
       <span class="req-badge">Required</span>
       <div class="up-check">✓</div>
       <div class="up-icon">🔥</div>
-      <h4>Furnace — front view</h4>
-      <p>Full front of the unit, door closed. Include floor and ceiling in frame.</p>
+      <h4>Your heating unit</h4>
+      <p>Stand back and snap the whole unit — the big metal box in your basement or closet. Get the floor and ceiling in too.</p>
       <input type="file" accept="image/*" capture="environment" onchange="handlePhoto(this,'furnace-front')" />
     </label>
 
@@ -444,8 +444,8 @@
       <span class="req-badge">Required</span>
       <div class="up-check">✓</div>
       <div class="up-icon">🏷</div>
-      <h4>Furnace — data plate</h4>
-      <p>The nameplate/sticker showing model, BTU, and serial number. Keep it legible.</p>
+      <h4>The sticker on that unit</h4>
+      <p>There's a printed label or sticker on it with model and serial numbers. Get close so we can read the small text.</p>
       <input type="file" accept="image/*" capture="environment" onchange="handlePhoto(this,'furnace-plate')" />
     </label>
 
@@ -453,8 +453,8 @@
       <span class="req-badge">Required</span>
       <div class="up-check">✓</div>
       <div class="up-icon">📏</div>
-      <h4>Furnace — side clearance</h4>
-      <p>Show space on both sides and the flue pipe going up. We're checking room to work.</p>
+      <h4>The space around it</h4>
+      <p>Step to the side and show what's around the unit and any pipes going up. We just want to see how much room there is to work.</p>
       <input type="file" accept="image/*" capture="environment" onchange="handlePhoto(this,'furnace-clearance')" />
     </label>
 
@@ -462,8 +462,8 @@
       <span class="req-badge">Required</span>
       <div class="up-check">✓</div>
       <div class="up-icon">📍</div>
-      <h4>Outdoor unit location</h4>
-      <p>Where the condenser (or mini-split head) will mount. Show nearby wall and ground.</p>
+      <h4>Outside the house</h4>
+      <p>Snap the outside wall where the new unit would go — usually beside the house or on the ground. Show the wall and the ground around it.</p>
       <input type="file" accept="image/*" capture="environment" onchange="handlePhoto(this,'ac-location')" />
     </label>
 
@@ -471,8 +471,8 @@
       <span class="req-badge">Required</span>
       <div class="up-check">✓</div>
       <div class="up-icon">⚡</div>
-      <h4>Breaker panel — door open</h4>
-      <p>Full panel with door open so we can see all breakers, labels, and open slots.</p>
+      <h4>Your electrical box — door open</h4>
+      <p>The grey metal box with all the switches (the one you flip when power goes out). Open the door and snap the whole thing.</p>
       <input type="file" accept="image/*" capture="environment" onchange="handlePhoto(this,'panel-open')" />
     </label>
 
@@ -480,8 +480,8 @@
       <span class="opt-badge">Recommended</span>
       <div class="up-check">✓</div>
       <div class="up-icon">🔍</div>
-      <h4>Breaker panel — closeup</h4>
-      <p>Close shot of the main breaker label showing total amps (e.g. 100A / 200A).</p>
+      <h4>Electrical box — up close</h4>
+      <p>Get a close shot of the big switch at the top of that box. There's usually a small number on it — just make it readable.</p>
       <input type="file" accept="image/*" capture="environment" onchange="handlePhoto(this,'panel-closeup')" />
     </label>
 
@@ -869,10 +869,19 @@ const order   = { product:null, ton:null, family:null, tier:null, furnace:"none"
 /* ═══════════════════════════════════════════
    QUIZ
 ═══════════════════════════════════════════ */
+// Local summer climate by service area — the Hamilton–Toronto corridor runs
+// hot & humid in summer, so we size up automatically instead of asking.
+const CITY_CLIMATE = {
+  hamilton:    "humid",
+  burlington:  "humid",
+  mississauga: "humid",
+  toronto:     "humid"
+};
 function pick(btn){
   btn.closest(".options").querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
   btn.classList.add("selected");
   answers[btn.dataset.q] = btn.dataset.val;
+  if(btn.dataset.q === "city") answers.climate = CITY_CLIMATE[btn.dataset.val] || "moderate";
   const nb = btn.closest(".q-step").querySelector("button[id^='nq']");
   if(nb) nb.disabled = false;
 }
