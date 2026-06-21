@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Coolr — HVAC on demand. Like Uber for cooling.</title>
+  <title>Dwellr — Home comfort on demand. HVAC without the middleman.</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -268,7 +268,7 @@
 
 <!-- NAV -->
 <nav>
-  <div class="logo">cool<span>r</span></div>
+  <div class="logo">dwell<span>r</span></div>
   <div>
     <a href="#how">How it works</a>
     <a href="#" onclick="goStage('quiz');return false;" class="btn btn-primary" style="margin-left:16px">Get started</a>
@@ -387,6 +387,16 @@
 
   <!-- Good / Better tier cards -->
   <div class="tier-row" id="tier-row"></div>
+
+  <!-- Furnace add-on (ducted path only) -->
+  <div id="furnace-section" style="max-width:820px;margin:0 auto 24px;display:none;">
+    <div style="text-align:center;margin-bottom:6px;">
+      <span class="pill pill-blue" style="margin:0">Optional add-on</span>
+    </div>
+    <h3 style="text-align:center;font-size:1.25rem;font-weight:800;margin-bottom:4px;">Need heating too? Add a furnace.</h3>
+    <p style="text-align:center;color:var(--mid);font-size:.88rem;margin-bottom:18px;">You have ducts — bundle a matching Midea gas furnace and save on a combined install. Skip it to keep your current furnace.</p>
+    <div class="tier-row" id="furnace-row" style="grid-template-columns:1fr 1fr 1fr;"></div>
+  </div>
 
   <!-- Why this recommendation -->
   <div class="why-box" style="max-width:820px;margin:0 auto 20px;"><strong>Why this recommendation?</strong> <span id="p-why"></span></div>
@@ -650,7 +660,7 @@
   <div class="stage-head">
     <div class="pill pill-amber">Last step · Rate</div>
     <h2>How was your install?</h2>
-    <p>Your rating keeps the Coolr installer network excellent.</p>
+    <p>Your rating keeps the Dwellr installer network excellent.</p>
   </div>
   <div class="rate-card">
     <div class="inst-avatar" id="rate-avatar" style="margin:0 auto 10px;width:72px;height:72px;font-size:2rem;">👷</div>
@@ -676,7 +686,7 @@
 </section>
 
 <footer>
-  © 2026 Coolr, Inc. · HVAC on demand ·
+  © 2026 Dwellr, Inc. · Home comfort on demand ·
   <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">For installers</a>
 </footer>
 
@@ -701,7 +711,7 @@ const CATALOG = {
     tiers: {
       good: {
         label: "Good",
-        name: t => `Coolr Split ${TONS[t].ton} — Standard`,
+        name: t => `Dwellr Split ${TONS[t].ton} — Standard`,
         tagline: "Reliable, simple, gets the job done. Zero frills, zero regrets.",
         bullets: [
           "Midea-sourced rotary compressor (workhorse)",
@@ -719,7 +729,7 @@ const CATALOG = {
       },
       better: {
         label: "Better",
-        name: t => `Coolr Split ${TONS[t].ton} — Inverter`,
+        name: t => `Dwellr Split ${TONS[t].ton} — Inverter`,
         tagline: "Inverter-driven. Quieter. Saves on your electric bill every month.",
         bullets: [
           "Midea inverter compressor — ramps up/down precisely",
@@ -744,7 +754,7 @@ const CATALOG = {
     tiers: {
       good: {
         label: "Good",
-        name: t => `Coolr Central ${TONS[t].ton} — Single Stage`,
+        name: t => `Dwellr Central ${TONS[t].ton} — Single Stage`,
         tagline: "Single-stage workhorse. On or off, cools fast, easy to service.",
         bullets: [
           "Copeland scroll compressor — industry standard",
@@ -762,7 +772,7 @@ const CATALOG = {
       },
       better: {
         label: "Better",
-        name: t => `Coolr Central ${TONS[t].ton} — Two Stage`,
+        name: t => `Dwellr Central ${TONS[t].ton} — Two Stage`,
         tagline: "Two-stage means quieter operation and better humidity control.",
         bullets: [
           "Copeland two-stage scroll compressor",
@@ -780,6 +790,46 @@ const CATALOG = {
       },
     },
     tons: ["1","1.5","2"],
+  },
+};
+
+// Furnace add-on — only offered on the ducted/central path (mini-splits already heat).
+// Midea R-series gas furnace platform. Flat-priced (not tonnage-based).
+const FURNACES = {
+  none: {
+    label: "No furnace",
+    name: "Skip — keep my existing furnace",
+    tagline: "Cooling only. We'll connect to the furnace you already have.",
+    bullets: ["No furnace added","We reuse your existing furnace & blower"],
+    equipment: 0, install: 0, afue: "—",
+  },
+  good: {
+    label: "Good",
+    name: "Dwellr Furnace 80 — Single Stage",
+    tagline: "Dependable gas heat. Simple, sturdy, easy to service.",
+    bullets: [
+      "Midea-sourced single-stage gas furnace",
+      "80% AFUE — solid for milder climates",
+      "Standard 24V controls — any thermostat",
+      "PSC blower motor — cheap to replace",
+      "Parts at every supply house",
+      "10-year heat exchanger warranty",
+    ],
+    equipment: 1099, install: 700, afue: "80% AFUE",
+  },
+  better: {
+    label: "Better",
+    name: "Dwellr Furnace 96 — Two Stage",
+    tagline: "High-efficiency condensing furnace. Lower gas bills, even heat.",
+    bullets: [
+      "Midea-sourced two-stage condensing furnace",
+      "96% AFUE — big savings in cold climates",
+      "Standard 24V controls — any thermostat",
+      "Constant-torque ECM blower — quiet & efficient",
+      "Pairs perfectly with a two-stage AC",
+      "Lifetime heat exchanger warranty",
+    ],
+    equipment: 1599, install: 850, afue: "96% AFUE",
   },
 };
 const INSTALLERS = [
@@ -814,7 +864,7 @@ const DOM_STEPS_INSTALL = [
    STATE
 ═══════════════════════════════════════════ */
 const answers = {};
-const order   = { product:null, ton:null, family:null, tier:null, photos:{}, slot:null, installer:null, rating:0 };
+const order   = { product:null, ton:null, family:null, tier:null, furnace:"none", photos:{}, slot:null, installer:null, rating:0 };
 
 /* ═══════════════════════════════════════════
    QUIZ
@@ -846,10 +896,44 @@ function showResult(){
   order.family = recommendFamily();
   order.tier   = "better"; // default to Better (highlighted)
   order.ton    = recommendTon();
+  order.furnace = "none";
   renderTonSwitch();
   renderTierCards();
+  renderFurnaceSection();
   document.getElementById("p-why").textContent = CATALOG[order.family].why(order.ton);
   goStage("result");
+}
+function renderFurnaceSection(){
+  const section = document.getElementById("furnace-section");
+  // Only offer a furnace on the ducted/central path — mini-splits already heat.
+  if(order.family !== "central"){ section.style.display="none"; return; }
+  section.style.display="block";
+  renderFurnaceCards();
+}
+function renderFurnaceCards(){
+  const order_keys = ["none","good","better"];
+  document.getElementById("furnace-row").innerHTML = order_keys.map(key=>{
+    const f = FURNACES[key];
+    const total = f.equipment + f.install;
+    const isSelected = key === order.furnace;
+    const isBetter = key === "better";
+    const priceLine = key === "none"
+      ? `<div class="tier-price">$0</div><div class="tier-full">Keep your current furnace</div>`
+      : `<div class="tier-price">+$${Math.round(total/24)}<small>/mo</small></div><div class="tier-full">+$${total.toLocaleString()} installed · ${f.afue}</div>`;
+    return `<div class="tier-card ${isBetter?"better":""} ${isSelected?"selected":""}" onclick="selectFurnace('${key}')">
+      ${isBetter ? '<span class="tier-badge">Best savings</span>' : ''}
+      <div class="tier-label">${f.label}</div>
+      <div class="tier-name" style="font-size:1.05rem">${f.name}</div>
+      <div class="tier-tagline">${f.tagline}</div>
+      ${priceLine}
+      <ul class="tier-bullets" style="margin-top:10px">${f.bullets.map(b=>`<li>${b}</li>`).join("")}</ul>
+      <button class="tier-select-btn">${isSelected ? "✓ Selected" : "Select"}</button>
+    </div>`;
+  }).join("");
+}
+function selectFurnace(key){
+  order.furnace = key;
+  renderFurnaceCards();
 }
 function renderTonSwitch(){
   const fam = CATALOG[order.family];
@@ -947,15 +1031,23 @@ function updatePhotoCounter(){
 const DEPOSIT = 99;
 function renderCheckoutSummary(){
   const p = order.product;
+  const f = (order.furnace && order.furnace!=="none") ? FURNACES[order.furnace] : null;
+  const furnaceTotal = f ? (f.equipment + f.install) : 0;
+  const grand = p.fullPrice + furnaceTotal;
+  const grandMonthly = Math.round(grand/24);
+  const furnaceLines = f ? `
+    <div class="order-line"><span>Furnace — ${f.name}</span><span>$${f.equipment.toLocaleString()}</span></div>
+    <div class="order-line"><span>Furnace installation</span><span>$${f.install.toLocaleString()}</span></div>` : "";
   document.getElementById("checkout-summary").innerHTML = `
     <div class="order-line"><span>Equipment — ${p.name}</span><span>$${p.equipPrice.toLocaleString()}</span></div>
     <div class="order-line"><span>Base installation (${p.tier} tier)</span><span>$${p.installBase.toLocaleString()}</span></div>
+    ${furnaceLines}
     <div class="order-line"><span>Dealer markup</span><span style="color:var(--green);font-weight:700">$0 — none.</span></div>
     <div class="order-line"><span>Sales commission</span><span style="color:var(--green);font-weight:700">$0 — none.</span></div>
-    <div class="order-line"><span>Estimated monthly (0% · 24 mo)</span><span>~$${p.monthly}/mo</span></div>
+    <div class="order-line"><span>Estimated monthly (0% · 24 mo)</span><span>~$${grandMonthly}/mo</span></div>
     <div class="order-line"><span>Warranty plan</span><span style="color:var(--mid)">Coming soon</span></div>
     <div class="order-line total"><span>Refundable deposit today</span><span>$${DEPOSIT}</span></div>
-    <div style="font-size:.76rem;color:var(--mid);margin-top:6px">Balance ($${(p.fullPrice-DEPOSIT).toLocaleString()}) due only after assessment approved and install confirmed.</div>`;
+    <div style="font-size:.76rem;color:var(--mid);margin-top:6px">Balance ($${(grand-DEPOSIT).toLocaleString()}) due only after assessment approved and install confirmed.</div>`;
 }
 function submitOrder(e){
   e.preventDefault();
